@@ -1,21 +1,22 @@
 Draw.loadPlugin(function(ui) {
     var graph = ui.editor.graph;
-    
-    function cellClicked(cell)
+    var highlight = new mxCellHighlight(graph, '#00ff00', 8);
+
+    function cellClicked(cell)  
 	{
 		// Forces focusout in IE
 		graph.container.focus();
 
-        debugger;
+        //debugger;
 
 		// Gets the selection cell
 		if (cell == null)
 		{
-			
+			highlight.highlight(null);
 		}
 		else
 		{
-			
+			highlight.highlight(graph.view.getState(cell));
 		}
 	};
 
