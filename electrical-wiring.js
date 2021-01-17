@@ -7,7 +7,7 @@ Draw.loadPlugin(function(ui) {
 		// Forces focusout in IE
 		graph.container.focus();
 
-        //debugger;
+        debugger;
 
 		// Gets the selection cell
 		if (cell == null)
