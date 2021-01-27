@@ -1,11 +1,11 @@
 function SystemSize() {
-    SystemSize.prototype.getPowerConsumption = function(systemSetup, systemConfiguration) {
+    SystemSize.prototype.getConsumptionPower = function(systemSetup, powerProfile) {
         var totalPowerConsumption = 0;        
-        var loads = systemConfiguration.loads;
+        var profile = systemSetup.powerProfiles[powerProfile];
         var appliances = systemSetup.appliances;
-        for(var loadKey in loads) {
-            var load = loads[loadKey];            
-            var appliance = appliances[loadKey];
+        for(var applianceKey in profile) {
+            var load = profile[applianceKey];            
+            var appliance = appliances[applianceKey];
 
             var power = 0;
             var mode = appliance.modes[load.mode];
@@ -22,13 +22,13 @@ function SystemSize() {
     SystemSize.prototype.getConsumptionEnergy = function(systemSetup, usageProfiles) {
         var totalConsumptionEnergy = 0;        
         var appliances = systemSetup.appliances;
-        var profiles = systemSetup.usageProfiles;
+        var profiles = systemSetup.energyConsumptionProfiles;
         
         var l = usageProfiles.length;
         for(var i = 0; i < l; i++) {
             var profile = profiles[usageProfiles[i]];
 
-            totalConsumptionEnergy += this.totalConsumptionEnergy(profile, appliances);
+            totalConsumptionEnergy += this.getConsumptionEnergyPerProfile(profile, appliances);
         }
 
         return totalConsumptionEnergy;

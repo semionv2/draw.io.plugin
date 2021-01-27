@@ -53,7 +53,7 @@ var system = {
             }
         }
     },
-    "usageProfiles": {
+    "energyConsumptionProfiles": {
         "winterDay": 
         {
             "loads": 
@@ -100,26 +100,24 @@ var system = {
                 }
             ]
         }
-    }
-};
-
-var configuration = {
-    "name": "full-power",
-    "loads": {
-        "Cooktop": {
-            "mode": "full-power"
-        },
-        "Water Boiler": {
-            "mode": "full-power"
-        },
-        "AIR 2D Heater": {
-            "mode": "full-power"
-        },
-        "Water Pump": {
-            "mode": "full-power"
-        },
-        "Compressor Fridge": {
-            "mode": "full-power"
+    },
+    "powerProfiles": {
+        "winterDayPeak": {
+            "Cooktop": {
+                "mode": "full-power"
+            },
+            "Water Boiler": {
+                "mode": "full-power"
+            },
+            "AIR 2D Heater": {
+                "mode": "full-power"
+            },
+            "Water Pump": {
+                "mode": "full-power"
+            },
+            "Compressor Fridge": {
+                "mode": "full-power"
+            }
         }
     }
 };
@@ -129,11 +127,11 @@ function getSystemInfo() {
 
     var batteryBankVoltage = 12;
 
-    var totalConsumption = systemSize.getPowerConsumption(system, configuration);
-    var energyConsumption = systemSize.getConsumptionEnergyPerHour(totalConsumption, 6);
+    var peakConsumption = systemSize.getConsumptionPower(system, "winterDayPeak");
+    var energyConsumption = systemSize.getConsumptionEnergy(system, ["winterDay"]);
     var batteryBankSize = systemSize.getBatteryBankSize(energyConsumption, batteryBankVoltage);
 
-    console.log("system power consumption: " + totalConsumption + " W");
-    console.log("system energy consumption: " + energyConsumption +" Wh");
+    console.log("peak power consumption: " + peakConsumption + " W");
+    console.log("energy consumption for the period: " + energyConsumption +" Wh");
     console.log("battery bank: " + batteryBankSize +" Ah, " + batteryBankVoltage + " V");
 }
