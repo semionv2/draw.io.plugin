@@ -1,10 +1,28 @@
 function SystemSize() {
-    SystemSize.prototype.getConsumptionPower = function(systemSetup, powerProfile) {
-        var totalPowerConsumption = 0;        
-        var profile = systemSetup.powerProfiles[powerProfile];
+
+    SystemSize.prototype.getPeakPower = function(systemSetup, consumptionProfile) {
+        var peakPower = 0;        
         var appliances = systemSetup.appliances;
-        for(var applianceKey in profile) {
-            var load = profile[applianceKey];            
+        var profiles = systemSetup.energyConsumptionProfiles;
+        
+        var l = consumptionProfile.length;
+        for(var i = 0; i < l; i++) {
+            var profile = profiles[consumptionProfile[i]];
+
+            var profilePeakPower = this.getPeakPowerPerProfile(profile.peakPowerProfile, appliances);
+            if (profilePeakPower != peakPower) {
+                peakPower = profilePeakPower;
+            }
+        }
+
+        return peakPower;
+    };
+
+    SystemSize.prototype.getPeakPowerPerProfile = function(peakPowerProfile, appliances) {
+        var peakPower = 0;
+
+        for(var applianceKey in peakPowerProfile) {
+            var load = peakPowerProfile[applianceKey];            
             var appliance = appliances[applianceKey];
 
             var power = 0;
@@ -13,20 +31,20 @@ function SystemSize() {
                 power = mode.power;
             }
 
-            totalPowerConsumption += power;
+            peakPower += power;
         }
 
-        return totalPowerConsumption;
+        return peakPower;
     };
 
-    SystemSize.prototype.getConsumptionEnergy = function(systemSetup, usageProfiles) {
+    SystemSize.prototype.getConsumptionEnergy = function(systemSetup, consumptionProfile) {
         var totalConsumptionEnergy = 0;        
         var appliances = systemSetup.appliances;
         var profiles = systemSetup.energyConsumptionProfiles;
         
-        var l = usageProfiles.length;
+        var l = consumptionProfile.length;
         for(var i = 0; i < l; i++) {
-            var profile = profiles[usageProfiles[i]];
+            var profile = profiles[consumptionProfile[i]];
 
             totalConsumptionEnergy += this.getConsumptionEnergyPerProfile(profile, appliances);
         }

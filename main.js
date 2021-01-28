@@ -98,25 +98,23 @@ var system = {
                     "timeMinutes": 10,
                     "mode": "full-power"
                 }
-            ]
-        }
-    },
-    "powerProfiles": {
-        "winterDayPeak": {
-            "Cooktop": {
-                "mode": "full-power"
-            },
-            "Water Boiler": {
-                "mode": "full-power"
-            },
-            "AIR 2D Heater": {
-                "mode": "full-power"
-            },
-            "Water Pump": {
-                "mode": "full-power"
-            },
-            "Compressor Fridge": {
-                "mode": "full-power"
+            ],
+            "peakPowerProfile": {
+                "Cooktop": {
+                    "mode": "full-power"
+                },
+                "Water Boiler": {
+                    "mode": "full-power"
+                },
+                "AIR 2D Heater": {
+                    "mode": "full-power"
+                },
+                "Water Pump": {
+                    "mode": "full-power"
+                },
+                "Compressor Fridge": {
+                    "mode": "full-power"
+                }
             }
         }
     }
@@ -126,12 +124,13 @@ function getSystemInfo() {
     var systemSize = new SystemSize();
 
     var batteryBankVoltage = 12;
+    var dayProfile = "winterDay";
 
-    var peakConsumption = systemSize.getConsumptionPower(system, "winterDayPeak");
-    var energyConsumption = systemSize.getConsumptionEnergy(system, ["winterDay"]);
+    var peakConsumption = systemSize.getPeakPower(system, [dayProfile]);
+    var energyConsumption = systemSize.getConsumptionEnergy(system, [dayProfile]);
     var batteryBankSize = systemSize.getBatteryBankSize(energyConsumption, batteryBankVoltage);
 
     console.log("peak power consumption: " + peakConsumption + " W");
-    console.log("energy consumption for the period: " + energyConsumption +" Wh");
+    console.log("energy consumption for " + dayProfile + ": " + energyConsumption +" Wh");
     console.log("battery bank: " + batteryBankSize +" Ah, " + batteryBankVoltage + " V");
 }
