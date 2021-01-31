@@ -83,4 +83,8 @@ function SystemSize() {
     SystemSize.prototype.getBatteryBankSize = function(energy, batteryBankVoltage) {
         return energy / batteryBankVoltage;
     };
+
+    SystemSize.prototype.getBatteryPeakCurrent = function(peakPower, batteryBankVoltage) {
+        return peakPower / batteryBankVoltage;
+    };
 }
